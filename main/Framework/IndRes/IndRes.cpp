@@ -53,16 +53,15 @@ bool CIndRes::Initialize()
 	return true;
 }
 
-bool CIndRes::CreateHwndRenderTarget(HWND hWnd, ID2D1HwndRenderTarget ** m_pd2dRenderTarget)
+bool CIndRes::CreateHwndRenderTarget(HWND hWnd, ID2D1HwndRenderTarget ** m_pd2dRenderTarget, D2D1_RENDER_TARGET_PROPERTIES prop, D2D1_PRESENT_OPTIONS presentOpt)
 {
-	D2D1_RENDER_TARGET_PROPERTIES props{};
 	RECT rc;
 	::GetClientRect(hWnd, &rc);
 	auto width = rc.right - rc.left;
 	auto height = rc.bottom - rc.top;
 
 	return SUCCEEDED(m_pd2dFactory->CreateHwndRenderTarget(
-		  props
-		, HwndRenderTargetProperties(hWnd, SizeU(width, height))
+		  prop
+		, HwndRenderTargetProperties(hWnd, SizeU(width, height), presentOpt)
 		, m_pd2dRenderTarget));
 }

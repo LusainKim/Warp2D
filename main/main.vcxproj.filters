@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="NewFilter5">
-      <UniqueIdentifier>{92314c98-6708-438b-9e83-de3df90d46e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IndRes">
-      <UniqueIdentifier>{80ab09b1-34f8-41a7-9a09-4660c84aafde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework">
       <UniqueIdentifier>{f58dde3f-350e-479e-b239-da9bb3c36696}</UniqueIdentifier>
     </Filter>
@@ -27,6 +21,12 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{2f719727-a00c-4130-818c-9ee2617661cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\IndRes">
+      <UniqueIdentifier>{80ab09b1-34f8-41a7-9a09-4660c84aafde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Timer">
+      <UniqueIdentifier>{92314c98-6708-438b-9e83-de3df90d46e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,16 +42,25 @@
     <ClInclude Include="main.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IndRes.h">
-      <Filter>IndRes</Filter>
-    </ClInclude>
-    <ClInclude Include="Warp2DFramework.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="D2DLoadBitmap.h">
       <Filter>pch</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="Framework\Warp2DFramework.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IndRes\IndRes.h">
+      <Filter>Framework\IndRes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Timer\Timer.h">
+      <Filter>Framework\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\stdafx.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\SystemDefine.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\inlineFuncs.h">
       <Filter>pch</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,13 +68,16 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="IndRes.cpp">
-      <Filter>IndRes</Filter>
-    </ClCompile>
-    <ClCompile Include="Warp2DFramework.cpp">
+    <ClCompile Include="Framework\Warp2DFramework.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="Framework\IndRes\IndRes.cpp">
+      <Filter>Framework\IndRes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Timer\Timer.cpp">
+      <Filter>Framework\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="pch\stdafx.cpp">
       <Filter>pch</Filter>
     </ClCompile>
   </ItemGroup>

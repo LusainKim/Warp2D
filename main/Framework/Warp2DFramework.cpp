@@ -1,14 +1,20 @@
 #include "stdafx.h"
-#include "IndRes.h"
+#include "IndRes/IndRes.h"
+#include "Timer/Timer.h"
 #include "Warp2DFramework.h"
 
-void CWarp2DFramework::OnCreate(HWND hWnd, HINSTANCE hInst, shared_ptr<CIndRes> indres)
+void CWarp2DFramework::OnCreate(HWND hWnd, HINSTANCE hInst, shared_ptr<CIndRes> indres, shared_ptr<CTimer> timer)
 {
 	RegisterIndRes(indres);
+	RegisterTimer(timer);
+
 	m_hWnd = hWnd;
 	m_hInst = hInst;
 
-	m_pIndRes->CreateHwndRenderTarget(hWnd, 800, 600, &m_pd2dRenderTarget);
+	// 클래스와 윈도우 프로시저 연결
+	::SetUserDataPtr(m_hWnd, this);
+
+	m_pIndRes->CreateHwndRenderTarget(hWnd, &m_pd2dRenderTarget);
 
 	BuildObject();
 }
@@ -53,10 +59,8 @@ void CWarp2DFramework::BuildObject()
 
 void CWarp2DFramework::FrameAdvance()
 {
-	Update(1.f / 60.f);
+	Update(m_pTimer->GetTimeElapsed());
 	Draw();
-
-	Sleep(16);
 }
 
 void CWarp2DFramework::Draw()
@@ -106,3 +110,48 @@ void CWarp2DFramework::Update(float fTimeElapsed)
 		currImg -= 4.f;
 
 }
+
+
+
+LRESULT CALLBACK CWarp2DFramework::WndProc(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	auto self = ::GetUserDataPtr<CWarp2DFramework*>(hWnd);
+	if (!self)
+		return ::DefWindowProc(hWnd, nMessageID, wParam, lParam);
+
+	static auto DestroyWindow = [&] ()
+	{
+		::SetUserDataPtr(hWnd, nullptr);
+		::PostQuitMessage(0);
+	};
+	
+	switch (nMessageID)
+	{
+//	case WM_CREATE:
+//		break;
+//
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		::BeginPaint(hWnd, &ps);
+		::EndPaint(hWnd, &ps);
+	}
+	break;
+
+	case WM_DESTROY:
+		DestroyWindow();
+		break;
+
+	default:
+		return DefWindowProc(hWnd, nMessageID, wParam, lParam);
+	//	return self->OnProcessingWindowMessage(hWnd, nMessageID, wParam, lParam);
+
+	}
+	return 0;
+}
+
+
+
+
+
+
