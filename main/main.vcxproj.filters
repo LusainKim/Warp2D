@@ -28,6 +28,9 @@
     <Filter Include="Framework\Timer">
       <UniqueIdentifier>{92314c98-6708-438b-9e83-de3df90d46e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Test">
+      <UniqueIdentifier>{d4f8df80-95d7-4026-bf53-2a57c3d3b862}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -63,6 +66,12 @@
     <ClInclude Include="pch\inlineFuncs.h">
       <Filter>pch</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Test\TestScene.h">
+      <Filter>Scene\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -79,6 +88,12 @@
     </ClCompile>
     <ClCompile Include="pch\stdafx.cpp">
       <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Test\TestScene.cpp">
+      <Filter>Scene\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

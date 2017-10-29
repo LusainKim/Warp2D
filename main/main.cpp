@@ -31,6 +31,10 @@ namespace
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 
+int GetMarginWidth() { return g_iMarginWidth; }
+int GetMarginHeight() { return g_iMarginHeight; }
+HINSTANCE GetHInstance() { return hInst; }
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -64,12 +68,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT) break;
+			if (TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) continue;
 
-			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 
 		if (!timer->Update()) continue;

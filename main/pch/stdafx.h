@@ -25,10 +25,12 @@
 #include <random>
 #include <chrono>
 #include <memory>
+#include <functional>
+#include <string>
 using namespace std;
 
 // ComPtr
-#include <wrl/client.h>
+#include <wrl.h>
 using namespace Microsoft::WRL;
 
 // Direct2D
