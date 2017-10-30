@@ -155,7 +155,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="D2DLoadBitmap.h" />
+    <ClInclude Include="D2D_Operator.h" />
     <ClInclude Include="Framework\IndRes\IndRes.h" />
     <ClInclude Include="Framework\Timer\Timer.h" />
     <ClInclude Include="Framework\Warp2DFramework.h" />
@@ -169,6 +171,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Framework\IndRes\IndRes.cpp" />
     <ClCompile Include="Framework\Timer\Timer.cpp" />
     <ClCompile Include="Framework\Warp2DFramework.cpp" />

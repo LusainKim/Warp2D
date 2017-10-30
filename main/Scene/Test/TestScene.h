@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 class CTestScene :
 	public CScene
@@ -22,11 +23,9 @@ public:
 private:
 
 	ComPtr<ID2D1SolidColorBrush>	m_pd2dsbrDefault	{ nullptr }	;
-	ComPtr<IDWriteTextFormat>		m_pdwTextFormat		{ nullptr }	;
-	ComPtr<IDWriteTextLayout>		m_pdwTextLayout		{ nullptr }	;
 
-	ComPtr<ID2D1Bitmap1>			m_pd2dbmpTest		{ nullptr }	;
-	float currImg = 0;
-	float fPositionX = 100.f;
+	D2D_POINT_2F					m_ptPlayer{ Point2F(0, 0) };
+
+	CCamera							m_Camera;
 };
 

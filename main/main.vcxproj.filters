@@ -31,6 +31,9 @@
     <Filter Include="Scene\Test">
       <UniqueIdentifier>{d4f8df80-95d7-4026-bf53-2a57c3d3b862}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{cc4dc3ac-6bab-4611-897e-d4e72b04810c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -72,6 +75,12 @@
     <ClInclude Include="Scene\Test\TestScene.h">
       <Filter>Scene\Test</Filter>
     </ClInclude>
+    <ClInclude Include="Camera\Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="D2D_Operator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="Scene\Test\TestScene.cpp">
       <Filter>Scene\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\Camera.cpp">
+      <Filter>Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

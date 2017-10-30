@@ -65,6 +65,7 @@ public:
 	// Getter
 public:
 	HWND GethWnd()									const { return m_hWnd; }
+	D2D_RECT_L GetClientSize()						const { return m_rcClient; }
 	shared_ptr<CIndRes> GetIndRes()					const { return m_pIndRes; }
 	ComPtr<ID2D1HwndRenderTarget> GetRenderTarget()	const { return m_pd2dRenderTarget; }
 

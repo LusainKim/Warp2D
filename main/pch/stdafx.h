@@ -41,6 +41,7 @@ using namespace D2D1;
 
 // Bitmap
 #include "D2DLoadBitmap.h"
+#include "D2D_Operator.h"
 using namespace D2DBitmap;
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.

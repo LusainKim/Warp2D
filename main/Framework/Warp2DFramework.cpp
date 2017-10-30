@@ -22,6 +22,7 @@ void CWarp2DFramework::OnCreate(HWND hWnd, HINSTANCE hInst, shared_ptr<CIndRes> 
 
 	m_hWnd = hWnd;
 	m_hInst = hInst;
+	::GetClientRect(hWnd, &m_rcClient);
 
 	// 클래스와 윈도우 프로시저 연결
 	::SetUserDataPtr(m_hWnd, this);

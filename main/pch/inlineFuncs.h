@@ -56,6 +56,17 @@ inline bool FailureMessage(HRESULT hr, LPCTSTR msg = TEXT(""), LPCTSTR captionMs
 	return false;
 }
 
+/// <summary>
+/// 인자로 받은 두 값을 t 값만큼 선형 보간합니다.
+/// </summary>
+///	<param name = "start"> 시작 값입니다. </param>
+///	<param name = "end"> 끝 값입니다. </param>
+///	<param name = "t"> 보간 값입니다. 대체로 0부터 1 사이의 숫자입니다. </param>
+template<typename Ty>
+constexpr Ty Interpolation(Ty start, Ty end, float t)
+{
+	return static_cast<Ty>(start * (1.f - t) + end * t);
+}
 
 
 
