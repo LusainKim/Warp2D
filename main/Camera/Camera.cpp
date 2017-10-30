@@ -13,6 +13,18 @@ CCamera::~CCamera()
 {
 }
 
+D2D_RECT_F CCamera::GetViewRect() const
+{
+	auto pt = GetCameraPosition();
+	return RectF
+	(
+		  pt.x
+		, pt.y
+		, pt.x + m_d2dptClientSize.x / m_fScale
+		, pt.y + m_d2dptClientSize.y / m_fScale
+	);
+}
+
 void CCamera::SetClientSize(D2D_POINT_2F ptClientSize)
 {
 	m_d2dptClientSize = ptClientSize;
@@ -22,18 +34,17 @@ void CCamera::SetMatrix()
 {
 	auto pos = GetCameraPosition();
 
-	m_d2dmtxWorld = Matrix3x2F::Identity();
-	m_d2dmtxWorld = Matrix3x2F::Scale(m_fScale, m_fScale) * m_d2dmtxWorld;
+	m_d2dmtxWorld = Matrix3x2F::Scale(m_fScale, m_fScale);
 	m_d2dmtxWorld._31 = pos.x;
 	m_d2dmtxWorld._32 = pos.y;
 }
 
-D2D1_POINT_2F CCamera::GetCameraPosition()
+D2D1_POINT_2F CCamera::GetCameraPosition() const
 {
 	return D2D1_POINT_2F
 	{
-	  Interpolation(m_d2dptPosition.x - m_d2dptClientSize.x * 2.f, m_d2dptPosition.x, m_d2dptAnchor.x * -0.5f + 0.5f)
-	, Interpolation(m_d2dptPosition.y - m_d2dptClientSize.y * 2.f, m_d2dptPosition.y, m_d2dptAnchor.y * -0.5f + 0.5f)
+	  Interpolation(m_d2dptPosition.x - m_d2dptClientSize.x / m_fScale, m_d2dptPosition.x, m_d2dptAnchor.x * -0.5f + 0.5f)
+	, Interpolation(m_d2dptPosition.y - m_d2dptClientSize.y / m_fScale, m_d2dptPosition.y, m_d2dptAnchor.y * -0.5f + 0.5f)
 	};
 }
 

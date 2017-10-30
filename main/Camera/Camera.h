@@ -15,14 +15,16 @@ protected:
 
 private:
 	void SetMatrix();
-	D2D1_POINT_2F GetCameraPosition(); 
+	D2D1_POINT_2F GetCameraPosition() const;
 
 public:
 	CCamera();
 	virtual ~CCamera();
 
-	D2D1_POINT_2F GetAnchor() { return m_d2dptAnchor; }
-	D2D1_POINT_2F GetPosition(){ return m_d2dptPosition; }
+	D2D1_POINT_2F GetAnchor() const { return m_d2dptAnchor; }
+	D2D1_POINT_2F GetPosition() const { return m_d2dptPosition; }
+
+	D2D_RECT_F GetViewRect() const;
 	virtual void Move(D2D1_POINT_2F& d2dptShift) { m_d2dptPosition = m_d2dptPosition + d2dptShift; }
 	virtual void SetPosition(D2D1_POINT_2F& ptPosition) { m_d2dptPosition = ptPosition; }
 	// (-1, -1) ¡Â ptAnchor ¡Â (+1, +1)
@@ -37,6 +39,6 @@ public:
 	D2D_MATRIX_3X2_F RegenerateViewMatrix();
 
 	void SetClientSize(D2D_POINT_2F ptClientSize);
-	bool CheckControlLock(){ return m_bControlLock; }
+	bool CheckControlLock() const { return m_bControlLock; }
 
 };
