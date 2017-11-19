@@ -164,6 +164,22 @@ LRESULT CWarp2DFramework::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, 
 	return DefWindowProc(hWnd, nMessageID, wParam, lParam);
 }
 
+void CWarp2DFramework::ProcessInput()
+{
+	static UCHAR pKeyBuffer[256];
+
+	bool bProcessedByScene = false;
+	BOOL bKeyState = GetKeyboardState(pKeyBuffer);
+	UNREFERENCED_PARAMETER(bKeyState);
+
+	if (m_pCurrentScene) bProcessedByScene = m_pCurrentScene->ProcessInput(pKeyBuffer);
+
+	if (!bProcessedByScene)
+	{
+		// TODO: ...
+	}
+}
+
 void CWarp2DFramework::ChangeScene(wstring Tag, bool bDestroyPostScene)
 {
 	auto pChangeScene = FindScene(Tag);

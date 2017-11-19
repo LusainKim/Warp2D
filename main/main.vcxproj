@@ -159,6 +159,7 @@
     <ClInclude Include="D2DLoadBitmap.h" />
     <ClInclude Include="D2D_Operator.h" />
     <ClInclude Include="Framework\IndRes\IndRes.h" />
+    <ClInclude Include="Framework\Input\Input.h" />
     <ClInclude Include="Framework\Timer\Timer.h" />
     <ClInclude Include="Framework\Warp2DFramework.h" />
     <ClInclude Include="main.h" />
@@ -173,6 +174,7 @@
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Framework\IndRes\IndRes.cpp" />
+    <ClCompile Include="Framework\Input\Input.cpp" />
     <ClCompile Include="Framework\Timer\Timer.cpp" />
     <ClCompile Include="Framework\Warp2DFramework.cpp" />
     <ClCompile Include="main.cpp" />

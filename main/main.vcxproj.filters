@@ -34,6 +34,9 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{cc4dc3ac-6bab-4611-897e-d4e72b04810c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Input">
+      <UniqueIdentifier>{ea8fc239-d648-461d-8b2a-3db6ee3c7705}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -81,6 +84,9 @@
     <ClInclude Include="D2D_Operator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Input\Input.h">
+      <Filter>Framework\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="Camera\Camera.cpp">
       <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Input\Input.cpp">
+      <Filter>Framework\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

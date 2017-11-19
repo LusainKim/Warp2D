@@ -56,6 +56,8 @@ public:
 	// 후 처리가 없을 경우 true 반환
 	virtual LRESULT OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
 
+	void ProcessInput();
+
 	// Framework 에서 호출하는 윈도우 프로시저입니다.
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
 
