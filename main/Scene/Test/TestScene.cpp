@@ -87,7 +87,11 @@ bool CTestScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM 
 			break;
 		case 'X':		m_Camera.Scale(m_Camera.GetScale() * 0.5f);
 			break;
-
+		case 'G':
+			m_uiInventory.GetItem(m_upItem.get());
+			break;
+		case 'H':
+			m_uiInventory.GetItem(nullptr);
 		default:
 			return false;
 		}
@@ -111,12 +115,22 @@ bool CTestScene::OnCreate(wstring && tag, CWarp2DFramework * pFramework)
 
 	m_Camera.SetPosition(m_ptPlayer);
 	m_Camera.SetAnchor(Point2F(0.f, 0.f));
+
+	m_upItem = make_unique<CItem>(
+		Point2F(100, 100), RectF(-10, -10, 10, 10));
+
+	m_upItem->RegisterImage(
+		m_pIndRes.get(), rendertarget.Get(), "Buckler.png");
+
+	m_uiInventory.BuildObject(this);
+
 	return true;
 }
 
 void CTestScene::Update(float fTimeElapsed)
 {
 	m_Camera.SetPosition(m_ptPlayer);
+	m_uiInventory.Update(fTimeElapsed);
 }
 
 void CTestScene::Draw(ID2D1HwndRenderTarget * pd2dRenderTarget)
@@ -132,4 +146,8 @@ void CTestScene::Draw(ID2D1HwndRenderTarget * pd2dRenderTarget)
 	pd2dRenderTarget->DrawRectangle(
 		RectF(50, 50, 70, 70)
 		, m_pd2dsbrDefault.Get());
+
+	m_upItem->Draw(pd2dRenderTarget);
+
+	m_uiInventory.Draw(pd2dRenderTarget);
 }
