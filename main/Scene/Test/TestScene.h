@@ -3,6 +3,8 @@
 #include "Scene/Scene.h"
 #include "Camera/Camera.h"
 
+#include "Object/Item/Item.h"
+#include "UI/Inventory/Inventory.h"
 class CTestScene :
 	public CScene
 {
@@ -22,10 +24,13 @@ public:
 
 private:
 
-	ComPtr<ID2D1SolidColorBrush>	m_pd2dsbrDefault	{ nullptr }	;
+	ComPtr<ID2D1SolidColorBrush>m_pd2dsbrDefault	{ nullptr }	;
 
-	D2D_POINT_2F					m_ptPlayer{ Point2F(0, 0) };
+	D2D_POINT_2F				m_ptPlayer{ Point2F(0, 0) };
 
-	CCamera							m_Camera;
+	CCamera						m_Camera;
+
+	unique_ptr<CItem>			m_upItem;
+	
+	CUIInventory				m_uiInventory;
 };
-
