@@ -40,6 +40,15 @@
     <Filter Include="UI\Inventory">
       <UniqueIdentifier>{8487c0dd-6bcd-4b41-8a58-5e31b9a0f18c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{59005d9c-f243-4d70-99b0-6a4bedc79a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player">
+      <UniqueIdentifier>{144580cd-8b9d-40b4-89e7-4dde9ebbe0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item">
+      <UniqueIdentifier>{8dbb3ab9-c51e-4ae3-8f6b-cadd27799cb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -87,17 +96,20 @@
     <ClInclude Include="D2D_Operator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Object.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Item\Item.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="UI\Inventory\Inventory.h">
       <Filter>UI\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="UI\UIBase.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Object.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Item\Item.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Player\Player.h">
+      <Filter>Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,17 +137,20 @@
     <ClCompile Include="Camera\Camera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Object.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Item\Item.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UIBase.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UI\Inventory\Inventory.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>UI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Object.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Item\Item.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Player\Player.cpp">
+      <Filter>Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

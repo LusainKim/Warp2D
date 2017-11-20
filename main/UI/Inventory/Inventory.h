@@ -17,8 +17,8 @@ public:
 	void BuildObject(CScene* scene) override;
 	
 	void Update(float fTimeElapsed) override;
-	void GetItem(CItem* item) { m_pItem = item; }
-
+	void GetItem(unique_ptr<CItem>&& item) { m_lstItem.push_back(std::move(item)); }
+	void PutItem() { if (m_lstItem.size() > 0) m_lstItem.pop_back(); }
 private:
 
 	ComPtr<ID2D1SolidColorBrush>		m_hbrCaption;
@@ -26,8 +26,14 @@ private:
 	ComPtr<ID2D1SolidColorBrush>		m_hbrText;
 
 	ComPtr<ID2D1Bitmap1>				m_bmpFrame;
+
+	D2D_SIZE_F							m_szItemOutlineMargin;
+	D2D_SIZE_F							m_szItemBetweenMargin;
+	D2D_SIZE_U							m_szItemMatrix;
+
 	D2D_RECT_F							m_rcItem;
-	CItem*								m_pItem = nullptr;
+
+	list<unique_ptr<CItem>>				m_lstItem;
 
 
 	ComPtr<IDWriteTextFormat>			m_dwTextFormat;

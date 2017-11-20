@@ -9,7 +9,7 @@ class CItem
 	: public CObject
 {
 public:
-	CItem(D2D_POINT_2F pt, D2D_RECT_F rc = RectF());
+	CItem(D2D_SIZE_U coord);
 	virtual ~CItem() override;
 
 	virtual void Update(float fTimeElapsed) override;
@@ -22,7 +22,14 @@ public:
 	virtual void RegisterImage(ComPtr<ID2D1Bitmap1>&& bmp) noexcept;
 
 	ID2D1Bitmap1* GetBitmap() const { return m_bmpImage.Get(); }
+
+	bool IsCollision(D2D_SIZE_U sz) const { return sz == m_szCoord; }
+	const D2D_SIZE_U& GetCoord() const { return m_szCoord; }
+
+	void ResetPosition() { SetPosition(Point2F()); }
+
 protected:
 
 	ComPtr<ID2D1Bitmap1>		m_bmpImage;
+	D2D_SIZE_U					m_szCoord;
 };

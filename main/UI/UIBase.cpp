@@ -11,6 +11,7 @@ CUIBase::~CUIBase()
 
 void CUIBase::Draw(ID2D1HwndRenderTarget * pd2dRenderTarget)
 {
+	if (!m_bViewUI) return;
 	// Caption
 	pd2dRenderTarget->SetTransform(Matrix3x2F::Translation(m_ptOrigin.x, m_ptOrigin.y));
 

@@ -17,6 +17,9 @@ public:
 
 	virtual void Update(float fTimeElapsed) {}
 
+	void View(bool bView) { m_bViewUI = bView; }
+	void SwitchView() { m_bViewUI = !m_bViewUI; }
+
 protected:
 
 	bool			m_bViewUI			{ true }	;

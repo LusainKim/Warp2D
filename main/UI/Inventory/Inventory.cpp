@@ -16,14 +16,28 @@ CUIInventory::~CUIInventory()
 void CUIInventory::DrawClient(ID2D1HwndRenderTarget * pd2dRenderTarget)
 {
 	pd2dRenderTarget->FillRectangle(m_rcClient, m_hbrClient.Get());
-	pd2dRenderTarget->DrawBitmap(m_bmpFrame.Get(), m_rcItem);
-	if (m_pItem)
-	{
-		pd2dRenderTarget->DrawBitmap(
-			  m_pItem->GetBitmap()
-			, m_rcItem
-		);
-	}
+
+	auto pItem = begin(m_lstItem);
+
+	for (int iColumn = 0; iColumn < static_cast<int>(m_szItemMatrix.height); ++iColumn)
+		for (int iRow = 0; iRow < static_cast<int>(m_szItemMatrix.width); ++iRow)
+		{
+			float fWidth = (m_rcItem.right - m_rcItem.left) * iRow + m_szItemBetweenMargin.width * max(0, iRow) + m_szItemOutlineMargin.width;
+			float fHeight = (m_rcItem.bottom - m_rcItem.top) * iColumn + m_szItemBetweenMargin.height * max(0, iColumn) + m_szItemOutlineMargin.height;
+
+			auto rc = RectF(fWidth + m_rcItem.left, fHeight + m_rcItem.top, fWidth + m_rcItem.right, fHeight + m_rcItem.bottom);
+
+			pd2dRenderTarget->DrawBitmap(m_bmpFrame.Get(), rc);
+
+			if (pItem != end(m_lstItem))
+			{
+				pd2dRenderTarget->DrawBitmap(
+					(*(pItem++))->GetBitmap()
+					, rc
+				);
+			}
+
+		}
 }
 
 void CUIInventory::DrawCaption(ID2D1HwndRenderTarget * pd2dRenderTarget)
@@ -48,7 +62,21 @@ void CUIInventory::BuildObject(CScene * scene)
 
 	m_ptOrigin = Point2F(560, 20);
 
-	m_rcItem = RectF(10, 10, 50, 50);
+	m_rcItem = RectF(0, 0, 40, 40);
+
+	m_szItemMatrix = SizeU(4, 4);
+	m_szItemOutlineMargin = SizeF(10, 20);
+
+	auto fClientWidth = m_rcClient.right - m_rcClient.left;
+	auto fItemWidths = (m_rcItem.right - m_rcItem.left) * m_szItemMatrix.width;
+
+	m_szItemBetweenMargin.width = (m_szItemMatrix.width == 1 ? 0 
+		: (fClientWidth - (fItemWidths + 2.f * m_szItemOutlineMargin.width)) 
+		/ static_cast<float>(m_szItemMatrix.width - 1)
+	);
+
+	m_szItemBetweenMargin.height = m_szItemBetweenMargin.width;
+
 	LoadImageFromFile(
 		  indres->wicFactory()
 		, rendertarget.Get()
@@ -56,7 +84,7 @@ void CUIInventory::BuildObject(CScene * scene)
 		, &m_bmpFrame);
 
 	rendertarget->CreateSolidColorBrush(ColorF{ ColorF::Yellow }, &m_hbrCaption);
-	rendertarget->CreateSolidColorBrush(ColorF{ ColorF::White }, &m_hbrClient);
+	rendertarget->CreateSolidColorBrush(ColorF{ ColorF::DimGray }, &m_hbrClient);
 	rendertarget->CreateSolidColorBrush(ColorF{ ColorF::Black }, &m_hbrText);
 	
 	indres->dwFactory()->CreateTextFormat(
