@@ -5,6 +5,7 @@
 CPlayer::CPlayer(D2D_SIZE_U sz)
 	: CObject(Point2F(sz.width * g_fTileWidth, sz.height * g_fTileHeight), g_rcItemRect)
 	, m_szCoord{ sz }
+	, m_UserInfo { UserInfo::GetInfoFromLevel(1) }
 {
 }
 
@@ -33,6 +34,23 @@ void CPlayer::Draw(ID2D1HwndRenderTarget * RenderTarget)
 		, 1.f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR
 		, RectF(szSrc.width, szSrc.height, szSrc.width + szSprite.width, szSrc.height + szSprite.height)
 	);
+}
+
+void CPlayer::DrawUI(ID2D1HwndRenderTarget * RenderTarget)
+{
+	auto rcPlayer = m_rcSize + m_ptPoisition;
+	auto rcUI = rcPlayer;
+	rcUI.top -= g_fTileHeight * 0.25f;
+	rcUI.bottom = rcPlayer.top;
+	ComPtr<ID2D1SolidColorBrush> brush;
+	RenderTarget->CreateSolidColorBrush(ColorF{ ColorF::DarkRed }, &brush);
+	RenderTarget->DrawRectangle(rcUI, brush.Get());
+
+	float hpRatio = m_UserInfo.HP / m_UserInfo.maxHP;
+	rcUI.right = Interpolation(rcUI.left, rcUI.right, hpRatio);
+	brush->SetColor(ColorF{ ColorF::Red });
+	RenderTarget->FillRectangle(rcUI, brush.Get());
+
 }
 
 void CPlayer::RegisterImage(CIndRes * indres, ID2D1HwndRenderTarget * RenderTarget, path filename, D2D_SIZE_U szSprite)

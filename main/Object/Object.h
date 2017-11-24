@@ -10,6 +10,7 @@ public:
 
 	virtual void Update(float fTimeElapsed) {}
 	virtual void Draw(ID2D1HwndRenderTarget* RenderTarget) = 0;
+	virtual void DrawUI(ID2D1HwndRenderTarget* RenderTarget) {}
 
 	void SetPosition(D2D_POINT_2F pt) { m_ptPoisition = pt; }
 	void Move(D2D_POINT_2F pt){ m_ptPoisition = m_ptPoisition + pt; }

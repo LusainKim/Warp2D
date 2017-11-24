@@ -126,9 +126,9 @@ bool CTestScene::OnCreate(wstring && tag, CWarp2DFramework * pFramework)
 
 	for (int i = 0; i < 10; ++i)
 	{
-		retry:
+		retryItem:
 		auto item = make_unique<CItem>(SizeU(pos_random(reng), pos_random(reng)));
-		for (const auto& p : m_lstItem) if (p->IsCollision(item->GetCoord())) goto retry;
+		for (const auto& p : m_lstItem) if (p->IsCollision(item->GetCoord())) goto retryItem;
 
 		path imgPath;
 		switch (img_random(reng))
@@ -152,6 +152,18 @@ bool CTestScene::OnCreate(wstring && tag, CWarp2DFramework * pFramework)
 		m_lstItem.push_back(move(item));
 	}
 
+	for (int i = 0; i < 10; ++i)
+	{
+	retryTrap:
+		auto item = make_unique<CItem>(SizeU(pos_random(reng), pos_random(reng)));
+		for (const auto& p : m_lstItem) if (p->IsCollision(item->GetCoord())) goto retryTrap;
+		for (const auto& p : m_lstTrap) if (p->IsCollision(item->GetCoord())) goto retryTrap;
+
+		item->RegisterImage(m_pIndRes.get(), rendertarget.Get(), 
+			"Graphics/Icon/Wonder stone.png");
+		m_lstTrap.push_back(move(item));
+	}
+
 	m_uiInventory.BuildObject(this);
 
 	return true;
@@ -171,6 +183,14 @@ void CTestScene::Update(float fTimeElapsed)
 			m_lstItem.erase(p);
 			break;
 		}
+
+	for (auto p = begin(m_lstTrap); p != end(m_lstTrap); ++p)
+	if ((*p)->IsCollision(m_Player.GetCoord()))
+		{
+			m_Player.GetDamage(rand() % 10 + 10);
+			m_lstTrap.erase(p);
+			break;
+		}	
 }
 
 void CTestScene::Draw(ID2D1HwndRenderTarget * pd2dRenderTarget)
@@ -192,6 +212,12 @@ void CTestScene::Draw(ID2D1HwndRenderTarget * pd2dRenderTarget)
 
 	for (const auto& p : m_lstItem)
 		p->Draw(pd2dRenderTarget);
+	for (const auto& p : m_lstTrap)
+		p->Draw(pd2dRenderTarget);
 
+	// HUD
+	m_Player.DrawUI(pd2dRenderTarget);
+
+	// UI
 	m_uiInventory.Draw(pd2dRenderTarget);
 }

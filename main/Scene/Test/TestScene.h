@@ -33,6 +33,7 @@ private:
 	CCamera							m_Camera;
 
 	list<unique_ptr<CItem>>			m_lstItem;
+	list<unique_ptr<CItem>>			m_lstTrap;
 	
 	CUIInventory					m_uiInventory;
 };
