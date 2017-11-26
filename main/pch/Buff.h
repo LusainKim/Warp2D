@@ -21,11 +21,21 @@ struct Buff
 
 	float	dex		= 0.f;
 	float	agi		= 0.f;
+	
+	Buff(float maxHP, float att, float def, float dex, float agi)
+		: maxHP{ maxHP}
+		, att{ att }
+		, def{ def }
+		, dex{ dex }
+		, agi{ agi }
+	{
+
+	}
 
 	template<typename ...Args>
 	Buff(Args&& ...args)
 	{
-		InitBuff(args...);
+		InitBuff(std::forward<Args>(args)...);
 	}
 
 	template<typename ...Args>
@@ -42,11 +52,36 @@ struct Buff
 		case AGI:	agi		= type.second;		break;
 		}
 	
-		InitBuff(args...);
+		InitBuff(std::forward<Args>(args)...);
 	}
+
+	void InitBuff() { }
+
+	Buff& operator+=(const Buff& buff)
+	{
+		maxHP += buff.maxHP;
+		att += buff.att;
+		def += buff.def;
+		dex += buff.dex;
+		agi += buff.agi;
+		return *this;
+	}
+
 };
 
 constexpr std::pair<Buff::TYPE, float> BUFF(Buff::TYPE type, float data)
 {
 	return std::make_pair(type, data);
+ }
+
+inline Buff operator+(const Buff& lhs, const Buff& rhs)
+{
+	return
+	{
+		  lhs.maxHP + rhs.maxHP
+		, lhs.att + rhs.att	
+		, lhs.def + rhs.def	
+		, lhs.dex + rhs.dex	
+		, lhs.agi + rhs.agi	
+	};
 }

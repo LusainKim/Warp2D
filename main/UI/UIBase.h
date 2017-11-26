@@ -20,6 +20,10 @@ public:
 	void View(bool bView) { m_bViewUI = bView; }
 	void SwitchView() { m_bViewUI = !m_bViewUI; }
 
+	virtual bool OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	{ return false; }
+	virtual bool OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)		{ return false; }
+	virtual bool OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	{ return false; }
+
 protected:
 
 	bool			m_bViewUI			{ true }	;

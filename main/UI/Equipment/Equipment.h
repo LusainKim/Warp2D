@@ -5,12 +5,12 @@
 
 class CItem;
 
-class CUIInventory
+class CUIEquipment
 	: public CUIBase
 {
 public:
-	CUIInventory(CPlayer& player);
-	~CUIInventory();
+	CUIEquipment(CPlayer& player);
+	~CUIEquipment();
 
 	void DrawClient(ID2D1HwndRenderTarget* pd2dRenderTarget) override;
 	void DrawCaption(ID2D1HwndRenderTarget* pd2dRenderTarget) override;
@@ -18,9 +18,10 @@ public:
 	void BuildObject(CScene* scene) override;
 	
 	void Update(float fTimeElapsed) override;
-	void GetItem(unique_ptr<CItem>&& item) { m_reflstItem.push_back(std::move(item)); }
-	void PutItem() { if (m_reflstItem.size() > 0) m_reflstItem.pop_back(); }
-	
+	void ChangeEquipment();
+	void Equipment(unique_ptr<CItem>&& item);
+	void Disarm(CEquipmentItem::TYPE type);
+
 	bool OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	override;
 	bool OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)		override;
 	bool OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	override;
@@ -39,9 +40,13 @@ private:
 	D2D_SIZE_F							m_szItemBetweenMargin;
 	D2D_SIZE_U							m_szItemMatrix;
 
+	D2D_POINT_2F						m_ptWeapon;
+	D2D_POINT_2F						m_ptShield;
+
 	D2D_RECT_F							m_rcItem;
 
-
+	unique_ptr<CEquipmentItem>			m_upWeapon;
+	unique_ptr<CEquipmentItem>			m_upShield;
 
 	ComPtr<IDWriteTextFormat>			m_dwTextFormat;
 };

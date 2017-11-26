@@ -9,6 +9,7 @@
 CTestScene::CTestScene()
 	: m_Player { SizeU(25, 25) }
 	, m_uiInventory { m_Player }
+	, m_uiEquipment { m_Player }
 {
 }
 
@@ -39,6 +40,9 @@ bool CTestScene::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wPa
 
 bool CTestScene::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
 {
+	if (m_uiInventory.OnProcessingWindowMessage(hWnd, nMessageID, wParam, lParam)) return true;
+	if (m_uiEquipment.OnProcessingWindowMessage(hWnd, nMessageID, wParam, lParam)) return true;
+
 	switch (nMessageID)
 	{
 	case WM_SIZE:
@@ -127,29 +131,35 @@ bool CTestScene::OnCreate(wstring && tag, CWarp2DFramework * pFramework)
 
 	for (int i = 0; i < 10; ++i)
 	{
-		retryItem:
-		auto item = make_unique<CItem>(SizeU(pos_random(reng), pos_random(reng)));
-		for (const auto& p : m_lstItem) if (p->IsCollision(item->GetCoord())) goto retryItem;
+	retryItem:
+		auto coord = SizeU(pos_random(reng), pos_random(reng));
+		for (const auto& p : m_lstItem) if (p->IsCollision(coord)) goto retryItem;
 
-		path imgPath;
-		switch (img_random(reng))
+		unique_ptr<CItem> item;
+		auto img = img_random(reng);
+
+		if (img < 3)
 		{
-		case 0:	imgPath = "Graphics/Icon/Bastard Sword.png";
-			break;
-		case 1:	imgPath = "Graphics/Icon/Gramr.png";
-			break;
-		case 2:	imgPath = "Graphics/Icon/string.png";
-			break;	
-		case 3:	imgPath = "Graphics/Icon/Round Shield.png";
-			break;
-		case 4:	imgPath = "Graphics/Icon/Healing Potion.png";
-			break;
-		case 5:	imgPath = "Graphics/Icon/Mana Potion.png";
-			break;
-
+			item = make_unique<CItem>(coord);
+			path imgPath;
+			switch (img)
+			{
+			case 0:	imgPath = "Graphics/Icon/string.png";
+				break;	
+			case 1:	imgPath = "Graphics/Icon/Healing Potion.png";
+				break;
+			case 2:	imgPath = "Graphics/Icon/Mana Potion.png";
+				break;
+			}
+			item->RegisterImage(m_pIndRes.get(), rendertarget.Get(), imgPath);
+		}
+		else
+		{
+			auto type = static_cast<CEquipmentItem::TYPE>(img - 3 + 1);
+			if (type == 3) type = CEquipmentItem::TYPE::shield_0;
+			item = make_Equip_Item(coord, type, m_pIndRes.get(), rendertarget.Get());
 		}
 
-		item->RegisterImage(m_pIndRes.get(), rendertarget.Get(), imgPath);
 		m_lstItem.push_back(move(item));
 	}
 
@@ -166,6 +176,7 @@ bool CTestScene::OnCreate(wstring && tag, CWarp2DFramework * pFramework)
 	}
 
 	m_uiInventory.BuildObject(this);
+	m_uiEquipment.BuildObject(this);
 
 	return true;
 }
@@ -174,6 +185,7 @@ void CTestScene::Update(float fTimeElapsed)
 {
 	m_Camera.SetPosition(m_Player.GetPosition());
 	m_uiInventory.Update(fTimeElapsed);
+	m_uiEquipment.Update(fTimeElapsed);
 
 	m_Player.Update(fTimeElapsed);
 
@@ -221,4 +233,5 @@ void CTestScene::Draw(ID2D1HwndRenderTarget * pd2dRenderTarget)
 
 	// UI
 	m_uiInventory.Draw(pd2dRenderTarget);
+	m_uiEquipment.Draw(pd2dRenderTarget);
 }

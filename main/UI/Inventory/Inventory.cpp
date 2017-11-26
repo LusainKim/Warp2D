@@ -106,3 +106,82 @@ void CUIInventory::Update(float fTimeElapsed)
 {
 
 }
+
+bool CUIInventory::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	return false;
+}
+
+bool CUIInventory::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	switch (nMessageID)
+	{
+	case WM_LBUTTONDOWN:
+		{ 
+			auto pt = Point2F(LOWORD(lParam), HIWORD(lParam)) - (m_ptOrigin + Point2F(0, m_rcCaption.bottom));
+			if (!PtInRect(&m_rcClient, pt)) return false;
+			
+			auto pItem = begin(m_reflstItem);
+
+			for (int iColumn = 0; iColumn < static_cast<int>(m_szItemMatrix.height); ++iColumn)
+				for (int iRow = 0; iRow < static_cast<int>(m_szItemMatrix.width); ++iRow)
+				{
+					if (pItem == end(m_reflstItem)) break;
+
+					float fWidth = (m_rcItem.right - m_rcItem.left) * iRow + m_szItemBetweenMargin.width * max(0, iRow) + m_szItemOutlineMargin.width;
+					float fHeight = (m_rcItem.bottom - m_rcItem.top) * iColumn + m_szItemBetweenMargin.height * max(0, iColumn) + m_szItemOutlineMargin.height;
+
+					auto rc = RectF(fWidth + m_rcItem.left, fHeight + m_rcItem.top, fWidth + m_rcItem.right, fHeight + m_rcItem.bottom);
+
+					if (PtInRect(&rc, pt))
+					{
+						switch ((*pItem)->ItemType())
+						{
+						case CItem::TYPE::Unknown:
+
+							break;
+						case CItem::TYPE::Equipment:
+							static_cast<CEquipmentItem*>(pItem->get())->Equipment(true);
+							break;
+						case CItem::TYPE::Consume:
+							break;
+						default:
+							break;
+						}
+					}
+
+					++pItem;
+				}
+		}
+		break;
+	default:
+		return false;
+	}
+
+	return(true);
+}
+
+bool CUIInventory::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	switch (nMessageID)
+	{
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+	case WM_MOUSEWHEEL:
+		return OnProcessingMouseMessage(hWnd, nMessageID, wParam, lParam);
+
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	case WM_CHAR:
+		return OnProcessingKeyboardMessage(hWnd, nMessageID, wParam, lParam);
+
+	default:
+		return false;
+	}
+	return true;
+}

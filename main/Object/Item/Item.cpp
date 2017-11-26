@@ -51,3 +51,28 @@ void CItem::RegisterImage(ComPtr<ID2D1Bitmap1>&& bmp) noexcept
 CEquipmentItem::~CEquipmentItem()
 {
 }
+
+unique_ptr<CEquipmentItem> make_Equip_Item(D2D_SIZE_U coord, CEquipmentItem::TYPE type, CIndRes* indres, ID2D1HwndRenderTarget* rendertarget)
+{
+	using EType = CEquipmentItem::TYPE;
+	using BT = Buff::TYPE;
+
+	unique_ptr<CEquipmentItem> retval;
+
+	switch (type)
+	{
+	case EType::sword_0:
+		retval = unique_ptr<CEquipmentItem>{ new CEquipmentItem{ coord, type, BUFF(BT::ATT, 10) } };
+		retval->RegisterImage(indres, rendertarget, "Graphics/Icon/Bastard Sword.png");
+		break;
+	case EType::sword_1:
+		retval = unique_ptr<CEquipmentItem>{ new CEquipmentItem{ coord, type, BUFF(BT::ATT, 20), BUFF(BT::HP, 5) } };
+		retval->RegisterImage(indres, rendertarget, "Graphics/Icon/Gramr.png");
+		break;
+	case EType::shield_0:
+		retval = unique_ptr<CEquipmentItem>{ new CEquipmentItem{ coord, type, BUFF(BT::DEF, 10), BUFF(BT::HP, 10) } };
+		retval->RegisterImage(indres, rendertarget, "Graphics/Icon/Round Shield.png");
+		break;
+	}
+	return retval;
+}

@@ -49,6 +49,9 @@
     <Filter Include="Object\Item">
       <UniqueIdentifier>{8dbb3ab9-c51e-4ae3-8f6b-cadd27799cb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Equipment">
+      <UniqueIdentifier>{756ee648-8133-4a03-b0a3-21e30bba1727}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -114,6 +117,9 @@
     <ClInclude Include="pch\Buff.h">
       <Filter>pch</Filter>
     </ClInclude>
+    <ClInclude Include="UI\Equipment\Equipment.h">
+      <Filter>UI\Equipment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -154,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="Object\Player\Player.cpp">
       <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Equipment\Equipment.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

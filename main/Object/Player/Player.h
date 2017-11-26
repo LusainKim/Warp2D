@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object/Object.h"
+#include "pch/Buff.h"
 
 class CIndRes;
 class CItem;
@@ -99,9 +100,10 @@ private:
 
 public:
 	friend class CUIInventory;
+	friend class CUIEquipment;
 
 private:
 	list<unique_ptr<CItem>>		m_lstItem;
-
+	Buff						m_EquipBuff;
 
 };
