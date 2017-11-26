@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Framework/IndRes/IndRes.h"
+#include "Object/Item/Item.h"
 #include "Player.h"
 
 CPlayer::CPlayer(D2D_SIZE_U sz)
@@ -43,14 +44,15 @@ void CPlayer::DrawUI(ID2D1HwndRenderTarget * RenderTarget)
 	rcUI.top -= g_fTileHeight * 0.25f;
 	rcUI.bottom = rcPlayer.top;
 	ComPtr<ID2D1SolidColorBrush> brush;
-	RenderTarget->CreateSolidColorBrush(ColorF{ ColorF::DarkRed }, &brush);
-	RenderTarget->DrawRectangle(rcUI, brush.Get());
+	RenderTarget->CreateSolidColorBrush(ColorF{ ColorF::Red }, &brush);
 
 	float hpRatio = m_UserInfo.HP / m_UserInfo.maxHP;
-	rcUI.right = Interpolation(rcUI.left, rcUI.right, hpRatio);
-	brush->SetColor(ColorF{ ColorF::Red });
-	RenderTarget->FillRectangle(rcUI, brush.Get());
+	auto rcHP = rcUI;
+	rcHP.right = Interpolation(rcHP.left, rcHP.right, hpRatio);
+	RenderTarget->FillRectangle(rcHP, brush.Get());
 
+	brush->SetColor(ColorF{ ColorF::DarkRed });
+	RenderTarget->DrawRectangle(rcUI, brush.Get());
 }
 
 void CPlayer::RegisterImage(CIndRes * indres, ID2D1HwndRenderTarget * RenderTarget, path filename, D2D_SIZE_U szSprite)

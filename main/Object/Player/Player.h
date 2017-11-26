@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Object/Object.h"
+
 class CIndRes;
+class CItem;
 
 
 
@@ -94,4 +96,12 @@ public:
 
 private:
 	UserInfo					m_UserInfo;
+
+public:
+	friend class CUIInventory;
+
+private:
+	list<unique_ptr<CItem>>		m_lstItem;
+
+
 };

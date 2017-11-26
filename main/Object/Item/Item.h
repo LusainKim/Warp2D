@@ -1,6 +1,6 @@
 #pragma once
 #include "Object/Object.h"
-
+#include "pch/Buff.h"
 
 
 class CIndRes;
@@ -32,4 +32,22 @@ protected:
 
 	ComPtr<ID2D1Bitmap1>		m_bmpImage;
 	D2D_SIZE_U					m_szCoord;
+};
+
+class CEquipmentItem
+	: public CItem
+{
+public:
+	template<typename... Args>
+	CEquipmentItem(D2D_SIZE_U coord, Args&&... buffInfo)
+		: CItem { coord }
+		, buff { buffInfo }
+	{
+	}
+	virtual ~CEquipmentItem() override;
+
+protected:
+
+	Buff buff;
+
 };

@@ -8,6 +8,7 @@
 
 CTestScene::CTestScene()
 	: m_Player { SizeU(25, 25) }
+	, m_uiInventory { m_Player }
 {
 }
 

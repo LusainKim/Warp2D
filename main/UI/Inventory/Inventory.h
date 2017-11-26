@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UI/UIBase.h"
+#include "Object/Player/Player.h"
 
 class CItem;
 
@@ -8,7 +9,7 @@ class CUIInventory
 	: public CUIBase
 {
 public:
-	CUIInventory();
+	CUIInventory(CPlayer& player);
 	~CUIInventory();
 
 	void DrawClient(ID2D1HwndRenderTarget* pd2dRenderTarget) override;
@@ -17,9 +18,12 @@ public:
 	void BuildObject(CScene* scene) override;
 	
 	void Update(float fTimeElapsed) override;
-	void GetItem(unique_ptr<CItem>&& item) { m_lstItem.push_back(std::move(item)); }
-	void PutItem() { if (m_lstItem.size() > 0) m_lstItem.pop_back(); }
+	void GetItem(unique_ptr<CItem>&& item) { m_reflstItem.push_back(std::move(item)); }
+	void PutItem() { if (m_reflstItem.size() > 0) m_reflstItem.pop_back(); }
+
 private:
+	CPlayer&							m_refPlayer;
+	list<unique_ptr<CItem>>&			m_reflstItem;
 
 	ComPtr<ID2D1SolidColorBrush>		m_hbrCaption;
 	ComPtr<ID2D1SolidColorBrush>		m_hbrClient;
@@ -33,7 +37,6 @@ private:
 
 	D2D_RECT_F							m_rcItem;
 
-	list<unique_ptr<CItem>>				m_lstItem;
 
 
 	ComPtr<IDWriteTextFormat>			m_dwTextFormat;

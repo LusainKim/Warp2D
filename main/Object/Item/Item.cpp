@@ -45,3 +45,9 @@ void CItem::RegisterImage(ComPtr<ID2D1Bitmap1>&& bmp) noexcept
 {
 	m_bmpImage = move(bmp);
 }
+
+
+
+CEquipmentItem::~CEquipmentItem()
+{
+}

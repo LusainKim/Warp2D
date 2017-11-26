@@ -5,7 +5,9 @@
 #include "Object/Item/Item.h"
 #include "Inventory.h"
 
-CUIInventory::CUIInventory()
+CUIInventory::CUIInventory(CPlayer & player)
+	: m_refPlayer { player }
+	, m_reflstItem { player.m_lstItem }
 {
 }
 
@@ -17,7 +19,7 @@ void CUIInventory::DrawClient(ID2D1HwndRenderTarget * pd2dRenderTarget)
 {
 	pd2dRenderTarget->FillRectangle(m_rcClient, m_hbrClient.Get());
 
-	auto pItem = begin(m_lstItem);
+	auto pItem = begin(m_reflstItem);
 
 	for (int iColumn = 0; iColumn < static_cast<int>(m_szItemMatrix.height); ++iColumn)
 		for (int iRow = 0; iRow < static_cast<int>(m_szItemMatrix.width); ++iRow)
@@ -29,7 +31,7 @@ void CUIInventory::DrawClient(ID2D1HwndRenderTarget * pd2dRenderTarget)
 
 			pd2dRenderTarget->DrawBitmap(m_bmpFrame.Get(), rc);
 
-			if (pItem != end(m_lstItem))
+			if (pItem != end(m_reflstItem))
 			{
 				pd2dRenderTarget->DrawBitmap(
 					(*(pItem++))->GetBitmap()
