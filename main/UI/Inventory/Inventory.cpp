@@ -34,9 +34,17 @@ void CUIInventory::DrawClient(ID2D1HwndRenderTarget * pd2dRenderTarget)
 			if (pItem != end(m_reflstItem))
 			{
 				pd2dRenderTarget->DrawBitmap(
-					(*(pItem++))->GetBitmap()
+					(*pItem)->GetBitmap()
 					, rc
 				);
+
+				if ((*pItem)->ItemType() == CItem::TYPE::Consume)
+				{
+					auto str = to_wstring(static_cast<CConsumeItem*>((*pItem).get())->CurrentEa());
+					pd2dRenderTarget->DrawText(str.c_str(), static_cast<UINT>(str.length()), m_dwItemEa.Get(), rc, m_hbrText.Get());
+				}
+
+				++pItem;
 			}
 
 		}
@@ -98,6 +106,19 @@ void CUIInventory::BuildObject(CScene * scene)
 		, (m_rcCaption.bottom - m_rcCaption.top) * 0.8f
 		, L"ko-kr"
 		, &m_dwTextFormat);
+	
+	indres->dwFactory()->CreateTextFormat(
+		  L"Arial"
+		, nullptr
+		, DWRITE_FONT_WEIGHT_BOLD
+		, DWRITE_FONT_STYLE_NORMAL
+		, DWRITE_FONT_STRETCH_NORMAL
+		, (m_rcItem.bottom - m_rcItem.top) * 0.4f
+		, L"ko-kr"
+		, &m_dwItemEa);
+
+	m_dwItemEa->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_FAR);
+	m_dwItemEa->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
 
 	m_strTitle = L"Inventory"s;
 }
@@ -105,6 +126,23 @@ void CUIInventory::BuildObject(CScene * scene)
 void CUIInventory::Update(float fTimeElapsed)
 {
 
+}
+
+void CUIInventory::GetItem(unique_ptr<CItem>&& item) 
+{
+	if (item->ItemType() != CItem::TYPE::Consume)
+		return m_reflstItem.push_back(std::move(item)); 
+
+	auto consume = static_cast<CConsumeItem*>(item.get());
+	auto p = find_if(begin(m_reflstItem), end(m_reflstItem), [&](const unique_ptr<CItem>& p)
+	{
+		auto con = dynamic_cast<CConsumeItem*>(p.get());
+		if (!con) return false;
+		return con->GetType() == consume->GetType();
+	});
+
+	if (p != end(m_reflstItem)) return static_cast<CConsumeItem*>((*p).get())->AdjustEa(1);
+	return m_reflstItem.push_back(std::move(item));
 }
 
 bool CUIInventory::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
@@ -118,6 +156,8 @@ bool CUIInventory::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM w
 	{
 	case WM_LBUTTONDOWN:
 		{ 
+			if (!m_refPlayer.IsActive()) false;
+
 			auto pt = Point2F(LOWORD(lParam), HIWORD(lParam)) - (m_ptOrigin + Point2F(0, m_rcCaption.bottom));
 			if (!PtInRect(&m_rcClient, pt)) return false;
 			
@@ -143,8 +183,17 @@ bool CUIInventory::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM w
 						case CItem::TYPE::Equipment:
 							static_cast<CEquipmentItem*>(pItem->get())->Equipment(true);
 							break;
+
 						case CItem::TYPE::Consume:
-							break;
+						{
+							auto consume = static_cast<CConsumeItem*>(pItem->get());
+							consume->Consume(m_refPlayer);
+
+							if (consume->CurrentEa() > 0) break;
+							
+							pItem = m_reflstItem.erase(pItem);
+							continue;
+						}	
 						default:
 							break;
 						}
@@ -163,6 +212,8 @@ bool CUIInventory::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM w
 
 bool CUIInventory::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
 {
+	if (!m_bViewUI) return false;
+
 	switch (nMessageID)
 	{
 	case WM_LBUTTONDOWN:

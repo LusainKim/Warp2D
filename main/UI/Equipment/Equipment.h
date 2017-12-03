@@ -2,8 +2,9 @@
 
 #include "UI/UIBase.h"
 #include "Object/Player/Player.h"
+#include "Object/Item/Item.h"
 
-class CItem;
+
 
 class CUIEquipment
 	: public CUIBase

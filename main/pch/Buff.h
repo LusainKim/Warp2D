@@ -2,6 +2,52 @@
 
 #include <memory>
 
+
+
+struct UserInfo
+{
+	float	maxHP;
+	float	HP;
+
+	float	att;
+	float	def;
+
+	float	dex;
+	float	agi;
+
+	UINT	level;
+	UINT	exp;
+
+	bool GetExp(int exp) { this->exp += exp; return LevelUp(); }
+	bool LevelUp()
+	{
+		if (exp < level * 100) return false;
+		exp -= level * 100;
+		level++;
+
+		maxHP += 12;
+		HP = maxHP;
+		att += 1.125f;
+		def++;
+		dex += 3;
+		agi += 2;
+		return true;
+	}
+	constexpr static UserInfo GetInfoFromLevel(UINT level) 
+	{
+		return {
+			static_cast<float>(level * 12 + 100),
+			static_cast<float>(level * 12 + 100),
+			static_cast<float>(10 + level * 1.125f),
+			static_cast<float>(5 + level),
+			static_cast<float>(level * 3),
+			static_cast<float>(5 + level * 2),
+			level,
+			0
+		};
+	}
+};
+
 struct Buff
 {
 	enum TYPE

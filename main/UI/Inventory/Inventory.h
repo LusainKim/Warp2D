@@ -18,7 +18,7 @@ public:
 	void BuildObject(CScene* scene) override;
 	
 	void Update(float fTimeElapsed) override;
-	void GetItem(unique_ptr<CItem>&& item) { m_reflstItem.push_back(std::move(item)); }
+	void GetItem(unique_ptr<CItem>&& item);
 	void PutItem() { if (m_reflstItem.size() > 0) m_reflstItem.pop_back(); }
 	
 	bool OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	override;
@@ -41,7 +41,6 @@ private:
 
 	D2D_RECT_F							m_rcItem;
 
-
-
 	ComPtr<IDWriteTextFormat>			m_dwTextFormat;
+	ComPtr<IDWriteTextFormat>			m_dwItemEa;
 };

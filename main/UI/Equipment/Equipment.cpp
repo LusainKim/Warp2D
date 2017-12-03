@@ -2,7 +2,6 @@
 #include "Framework/Warp2DFramework.h"
 #include "Framework/IndRes/IndRes.h"
 #include "Scene/Scene.h"
-#include "Object/Item/Item.h"
 #include "Equipment.h"
 
 CUIEquipment::CUIEquipment(CPlayer & player)
@@ -146,6 +145,8 @@ void CUIEquipment::Equipment(unique_ptr<CItem>&& item)
 			m_upWeapon->Equipment(false);
 			m_reflstItem.push_back(move(m_upWeapon));
 		}
+
+		//	옳지 않은 코딩의 예시
 		m_upWeapon = reinterpret_cast<unique_ptr<CEquipmentItem>&&>(move(item));
 		m_upWeapon->Equipment(true);
 	}
@@ -156,7 +157,8 @@ void CUIEquipment::Equipment(unique_ptr<CItem>&& item)
 			m_upShield->Equipment(false);
 			m_reflstItem.push_back(move(m_upShield));
 		}
-		m_upShield = reinterpret_cast<unique_ptr<CEquipmentItem>&&>(move(item));
+		//	그나마 나은 코딩의 예시
+		m_upShield = unique_ptr<CEquipmentItem>{ dynamic_cast<CEquipmentItem *>(item.release()) };
 		m_upShield->Equipment(true);
 	}
 
@@ -191,6 +193,8 @@ bool CUIEquipment::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM w
 	{
 	case WM_LBUTTONDOWN:
 		{ 
+			if (!m_refPlayer.IsActive()) break;
+
 			auto pt = Point2F(LOWORD(lParam), HIWORD(lParam)) - (m_ptOrigin + Point2F(0, m_rcCaption.bottom));
 			if (!PtInRect(&m_rcClient, pt)) return false;
 
@@ -215,6 +219,8 @@ bool CUIEquipment::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM w
 
 bool CUIEquipment::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
 {
+	if (!m_bViewUI) return false;
+
 	switch (nMessageID)
 	{
 	case WM_LBUTTONDOWN:

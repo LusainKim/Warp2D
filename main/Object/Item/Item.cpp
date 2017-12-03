@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Framework/IndRes/IndRes.h"
+#include "Object/Player/Player.h"
 #include "Item.h"
 
 CItem::CItem(D2D_SIZE_U sz)
-	: CObject(Point2F(sz.width * g_fTileWidth, sz.height * g_fTileHeight), g_rcItemRect)
+	: CObject(GetPositionByCoord(sz), g_rcItemRect)
 	, m_szCoord { sz }
 {
 }
@@ -75,4 +76,36 @@ unique_ptr<CEquipmentItem> make_Equip_Item(D2D_SIZE_U coord, CEquipmentItem::TYP
 		break;
 	}
 	return retval;
+}
+
+
+
+CConsumeItem::~CConsumeItem()
+{
+}
+
+unique_ptr<CConsumeItem> make_Consume_Item(D2D_SIZE_U coord, CConsumeItem::TYPE type, CIndRes * indres, ID2D1HwndRenderTarget * rendertarget)
+{
+	using EType = CConsumeItem::TYPE;
+	using BT = Buff::TYPE;
+
+	unique_ptr<CConsumeItem> retval;
+
+	auto healing = [](CPlayer& player, float hp) {
+		player.Healing(hp);
+	};
+
+	switch (type)
+	{
+	case EType::Healing:
+		retval = unique_ptr<CConsumeItem>{ new CConsumeItem{ coord, type, bind(healing, placeholders::_1, 30) } };
+		retval->RegisterImage(indres, rendertarget, "Graphics/Icon/Healing Potion.png");
+		break;
+	case EType::Mana:
+		retval = unique_ptr<CConsumeItem>{ new CConsumeItem{ coord, type, bind(healing, placeholders::_1, 80) } };
+		retval->RegisterImage(indres, rendertarget, "Graphics/Icon/Mana Potion.png");
+		break;
+	}
+	return retval;
+	return unique_ptr<CConsumeItem>();
 }

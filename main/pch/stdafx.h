@@ -27,6 +27,8 @@
 #include <memory>
 #include <functional>
 #include <string>
+#include <deque>
+#include <queue>
 using namespace std;
 
 #include <filesystem>

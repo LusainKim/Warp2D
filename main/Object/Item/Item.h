@@ -4,6 +4,7 @@
 
 
 class CIndRes;
+class CPlayer;
 
 class CItem 
 	: public CObject
@@ -105,3 +106,59 @@ protected:
 };
 
 unique_ptr<CEquipmentItem> make_Equip_Item(D2D_SIZE_U coord, CEquipmentItem::TYPE type, CIndRes* indres, ID2D1HwndRenderTarget* rendertarget);
+
+
+
+class CConsumeItem
+	: public CItem
+{
+public:
+
+	enum TYPE
+	{
+		  Healing
+		, Mana
+	};
+	
+	friend unique_ptr<CConsumeItem> make_Consume_Item(D2D_SIZE_U coord, CConsumeItem::TYPE type, CIndRes* indres, ID2D1HwndRenderTarget* rendertarget);
+	
+	// 이러케 코딩하면 안대 알게써?
+	// 모르게따고? 야!!!!!!
+//	template<class _Ty, class... _Types, class = enable_if_t<!is_array<_Ty>::value>>
+//	friend unique_ptr<_Ty> std::make_unique(_Types&&... _Args);
+
+protected:
+
+	CConsumeItem(D2D_SIZE_U coord, TYPE type, const function<void(CPlayer&)>& fn, int num = 1)
+		: CItem{ coord }
+		, type{ type }
+		, buff{ fn }
+		, num{ num }
+	{
+		m_ItemType = CItem::TYPE::Consume;
+	}
+
+public:
+
+	CConsumeItem() = delete;
+	virtual ~CConsumeItem() override;
+
+public:
+
+	bool IsEquipment() const { return m_bEqiupment; }
+	void Equipment(bool equip) { m_bEqiupment = equip; }
+	TYPE GetType() const { return type; }
+	void Consume(CPlayer& player) { buff(player); num--; }
+	int CurrentEa() const { return num; }
+	void AdjustEa(int n) { num += n; }
+
+protected:
+
+	int num;
+	const TYPE type;
+	const function<void(CPlayer&)> buff;
+	bool m_bEqiupment{ false };
+
+};
+
+unique_ptr<CConsumeItem> make_Consume_Item(D2D_SIZE_U coord, CConsumeItem::TYPE type, CIndRes* indres, ID2D1HwndRenderTarget* rendertarget);

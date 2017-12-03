@@ -1,44 +1,32 @@
 #include "stdafx.h"
 #include "Framework/IndRes/IndRes.h"
-#include "Object/Item/Item.h"
-#include "Player.h"
+#include "Monster.h"
 
-CPlayer::CPlayer(D2D_SIZE_U sz)
+CMonster::CMonster(D2D_SIZE_U sz)
 	: CObject(GetPositionByCoord(sz), g_rcItemRect)
 	, m_szCoord{ sz }
-	, m_UserInfo { UserInfo::GetInfoFromLevel(1) }
+	, m_UserInfo{ UserInfo::GetInfoFromLevel(1) }
 {
 }
 
-CPlayer::~CPlayer()
+CMonster::~CMonster()
 {
 }
-
-void CPlayer::Update(float fTimeElapsed)
+void CMonster::Update(float fTimeElapsed)
 {
-	if (!IsActive())
-	{
-		m_fTick = 0.f;
-		if ((m_fResurrectionTick += fTimeElapsed) >= g_fResurrectionTime)
-		{
-			m_UserInfo.HP = GetMaxHP();
-
-			m_szCoord = m_szResurrectionPos;
-			SetPosition(GetPositionByCoord(m_szCoord));
-			m_Direction = Dir::bottom;
-
-			m_fResurrectionTick = 0.f;
-		}
-
-		return;
-	}
-
 	m_fTick += (fTimeElapsed * 5.f);
 	if (m_fTick > 4.f)
 		m_fTick -= 4.f;
+
+	m_fActionTick += fTimeElapsed;
+	if (m_fActionTick > 1.f)
+	{
+		m_bAction = true;
+		m_fActionTick = 0.f;
+	}
 }
 
-void CPlayer::Draw(ID2D1HwndRenderTarget * RenderTarget)
+void CMonster::Draw(ID2D1HwndRenderTarget * RenderTarget)
 {
 	auto szSprite = m_bmpImage->GetSize();
 	szSprite.width /= m_szSprite.width;
@@ -54,7 +42,7 @@ void CPlayer::Draw(ID2D1HwndRenderTarget * RenderTarget)
 	);
 }
 
-void CPlayer::DrawUI(ID2D1HwndRenderTarget * RenderTarget)
+void CMonster::DrawUI(ID2D1HwndRenderTarget * RenderTarget)
 {
 	auto rcPlayer = m_rcSize + m_ptPoisition;
 	auto rcUI = rcPlayer;
@@ -72,10 +60,10 @@ void CPlayer::DrawUI(ID2D1HwndRenderTarget * RenderTarget)
 	RenderTarget->DrawRectangle(rcUI, brush.Get());
 }
 
-void CPlayer::RegisterImage(CIndRes * indres, ID2D1HwndRenderTarget * RenderTarget, path filename, D2D_SIZE_U szSprite)
+void CMonster::RegisterImage(CIndRes * indres, ID2D1HwndRenderTarget * RenderTarget, path filename, D2D_SIZE_U szSprite)
 {
 	LoadImageFromFile(
-		  indres->wicFactory()
+		indres->wicFactory()
 		, RenderTarget
 		, filename.c_str()
 		, &m_bmpImage
@@ -83,22 +71,20 @@ void CPlayer::RegisterImage(CIndRes * indres, ID2D1HwndRenderTarget * RenderTarg
 	m_szSprite = szSprite;
 }
 
-void CPlayer::RegisterImage(const ComPtr<ID2D1Bitmap1>& bmp, D2D_SIZE_U szSprite)
+void CMonster::RegisterImage(const ComPtr<ID2D1Bitmap1>& bmp, D2D_SIZE_U szSprite)
 {
 	m_bmpImage = bmp;
 	m_szSprite = szSprite;
 }
 
-void CPlayer::RegisterImage(ComPtr<ID2D1Bitmap1>&& bmp, D2D_SIZE_U szSprite) noexcept
+void CMonster::RegisterImage(ComPtr<ID2D1Bitmap1>&& bmp, D2D_SIZE_U szSprite) noexcept
 {
 	m_bmpImage = move(bmp);
 	m_szSprite = szSprite;
 }
 
-void CPlayer::Move(Dir dir)
+void CMonster::Move(Dir dir)
 {
-	if (!IsActive()) return;
-
 	switch (m_Direction = dir)
 	{
 	case Dir::left:			if (m_szCoord.width > 0) m_szCoord.width -= 1;
