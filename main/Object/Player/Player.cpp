@@ -52,6 +52,24 @@ void CPlayer::Draw(ID2D1HwndRenderTarget * RenderTarget)
 		, 1.f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR
 		, RectF(szSrc.width, szSrc.height, szSrc.width + szSprite.width, szSrc.height + szSprite.height)
 	);
+
+	if (!IsActive())
+	{
+		ComPtr<ID2D1SolidColorBrush> hbr;
+		RenderTarget->CreateSolidColorBrush(ColorF{ ColorF::Black, 0.6f }, &hbr);
+		RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+
+		RenderTarget->FillOpacityMask(
+			  m_bmpImage.Get()
+			, hbr.Get()
+			, D2D1_OPACITY_MASK_CONTENT_GRAPHICS
+			, m_rcSize + m_ptPoisition
+			, RectF(szSrc.width, szSrc.height, szSrc.width + szSprite.width, szSrc.height + szSprite.height)
+		
+		);
+
+		RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	}
 }
 
 void CPlayer::DrawUI(ID2D1HwndRenderTarget * RenderTarget)
