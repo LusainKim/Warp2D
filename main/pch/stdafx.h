@@ -27,7 +27,12 @@
 #include <memory>
 #include <functional>
 #include <string>
+#include <deque>
+#include <queue>
 using namespace std;
+
+#include <filesystem>
+using namespace experimental::filesystem;
 
 // ComPtr
 #include <wrl.h>
@@ -47,3 +52,5 @@ using namespace D2DBitmap;
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 #include "SystemDefine.h"
 #include "inlineFuncs.h"
+
+constexpr D2D_POINT_2F GetPositionByCoord(D2D_SIZE_U sz) noexcept { return D2D_POINT_2F{ sz.width * g_fTileWidth, sz.height * g_fTileHeight }; }

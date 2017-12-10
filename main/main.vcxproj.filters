@@ -34,6 +34,27 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{cc4dc3ac-6bab-4611-897e-d4e72b04810c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{1dbc1b56-a436-4863-8627-4b83c29a9139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Inventory">
+      <UniqueIdentifier>{8487c0dd-6bcd-4b41-8a58-5e31b9a0f18c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{59005d9c-f243-4d70-99b0-6a4bedc79a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player">
+      <UniqueIdentifier>{144580cd-8b9d-40b4-89e7-4dde9ebbe0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item">
+      <UniqueIdentifier>{8dbb3ab9-c51e-4ae3-8f6b-cadd27799cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Equipment">
+      <UniqueIdentifier>{756ee648-8133-4a03-b0a3-21e30bba1727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Monster">
+      <UniqueIdentifier>{8fb2b9ec-957f-49b4-ab64-51be14bb3e5d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Framework\Input">
       <UniqueIdentifier>{ea8fc239-d648-461d-8b2a-3db6ee3c7705}</UniqueIdentifier>
     </Filter>
@@ -84,6 +105,30 @@
     <ClInclude Include="D2D_Operator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="UI\Inventory\Inventory.h">
+      <Filter>UI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIBase.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Object.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Item\Item.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Player\Player.h">
+      <Filter>Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\Buff.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Equipment\Equipment.h">
+      <Filter>UI\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Monster\Monster.h">
+      <Filter>Object\Monster</Filter>
+    </ClInclude>
     <ClInclude Include="Framework\Input\Input.h">
       <Filter>Framework\Input</Filter>
     </ClInclude>
@@ -115,6 +160,27 @@
     </ClCompile>
     <ClCompile Include="Framework\Input\Input.cpp">
       <Filter>Framework\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIBase.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Inventory\Inventory.cpp">
+      <Filter>UI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Object.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Item\Item.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Player\Player.cpp">
+      <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Monster\Monster.cpp">
+      <Filter>Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Equipment\Equipment.cpp">
+      <Filter>UI\Equipment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
