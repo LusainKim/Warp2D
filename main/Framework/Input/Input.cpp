@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Framework/Warp2DFramework.h"
 #include "Input.h"
 
 void CInputManager::ProcessInput(bool(&arrByte)[256])
@@ -54,4 +53,38 @@ bool CInputManager::replace(string tag, UCHAR newkey)
 	bind(newkey, move(btn));
 
 	return true;
+}
+
+bool CInputManager::replace(std::string tag, UCHAR newkey, LPCSTR appName, LPCSTR filePath)
+{
+	auto retval = replace(tag, newkey);
+	SaveKey(appName, tag, filePath);
+
+	return retval;
+}
+
+void CInputManager::SaveAllKey(LPCSTR appName, LPCSTR filePath)
+{
+	for (auto& data : m_mRegisterKeyList)
+	{
+		auto& key = data.first;
+		auto& btn = data.second;
+		WritePrivateProfileStringA(appName, btn.tag.c_str(), to_string(key).c_str(), filePath);
+	}
+}
+
+void CInputManager::SaveKey(LPCSTR appName, string tag, LPCSTR filePath)
+{
+	auto data = find_if(begin(m_mRegisterKeyList), end(m_mRegisterKeyList), [&](const auto & p)
+	{
+		return p.second.tag == tag;
+	});
+
+	if (data == end(m_mRegisterKeyList))
+		return;
+
+	auto& key = data->first;
+	auto& btn = data->second;
+
+	WritePrivateProfileStringA(appName, btn.tag.c_str(), to_string(key).c_str(), filePath);
 }

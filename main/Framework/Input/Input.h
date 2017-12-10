@@ -31,6 +31,10 @@ public:
 
 	void bind(UCHAR key, CInputManager::Button&& btn);
 	bool replace(std::string tag, UCHAR newkey);
+	bool replace(std::string tag, UCHAR newkey, LPCSTR appName, LPCSTR filePath);
+
+	void SaveAllKey(LPCSTR appName, LPCSTR filePath);
+	void SaveKey(LPCSTR appName, std::string tag, LPCSTR filePath);
 
 private:
 

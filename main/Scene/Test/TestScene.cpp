@@ -18,6 +18,7 @@ CTestScene::CTestScene()
 
 CTestScene::~CTestScene()
 {
+	m_InputManaget.SaveAllKey("TestScene", "./config.ini");
 }
 
 bool CTestScene::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
@@ -219,8 +220,8 @@ void CTestScene::BindKey()
 	;
 	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_left"		, 'A', "./config.ini"), move(move_left));
 	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_top"		, 'W', "./config.ini"), move(move_top));
-	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_right"		, 'S', "./config.ini"), move(move_right));
-	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_bottom"	, 'D', "./config.ini"), move(move_bottom));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_right"		, 'D', "./config.ini"), move(move_right));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_bottom"	, 'S', "./config.ini"), move(move_bottom));
 
 	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "zoom_in"		, 'Z', "./config.ini"), move(zoom_in));
 	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "zoom_out"		, 'X', "./config.ini"), move(zoom_out));

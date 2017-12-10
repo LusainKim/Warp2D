@@ -13,6 +13,7 @@ CWarp2DFramework::CWarp2DFramework()
 
 CWarp2DFramework::~CWarp2DFramework()
 {
+	m_InputManaget.SaveAllKey("Main", "./config.ini");
 }
 
 void CWarp2DFramework::OnCreate(HWND hWnd, HINSTANCE hInst, shared_ptr<CIndRes> indres, shared_ptr<CTimer> timer)

@@ -42,7 +42,7 @@ void CPlayer::Update(float fTimeElapsed)
 	m_fAttCool += fTimeElapsed;
 	m_fMoveCool += fTimeElapsed;
 
-	if (m_fTick += (fTimeElapsed * 5.f) > 4.f)
+	if ((m_fTick += fTimeElapsed * 5.f) > 4.f)
 		m_fTick -= 4.f;
 }
 
