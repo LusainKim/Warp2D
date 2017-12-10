@@ -44,7 +44,7 @@ void CWarp2DFramework::BindKey()
 	CInputManager::Button btn{ "exit"s };
 	btn.up_event = [&]() { DestroyWindow(m_hWnd); };
 
-	m_InputManaget.bind(VK_ESCAPE, move(btn));
+	m_InputManaget.bind(GetPrivateProfileIntA("Main", "exit", VK_ESCAPE, "./config.ini"), move(btn));
 }
 
 void CWarp2DFramework::FrameAdvance()

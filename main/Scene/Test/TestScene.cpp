@@ -216,21 +216,21 @@ void CTestScene::BindKey()
 				if (!p->IsActive()) m_dqRegenTimer.push(chrono::high_resolution_clock::now() + 5s);
 			}
 	};
+	;
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_left"		, 'A', "./config.ini"), move(move_left));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_top"		, 'W', "./config.ini"), move(move_top));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_right"		, 'S', "./config.ini"), move(move_right));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "move_bottom"	, 'D', "./config.ini"), move(move_bottom));
 
-	m_InputManaget.bind('A', move(move_left));
-	m_InputManaget.bind('W', move(move_top));
-	m_InputManaget.bind('D', move(move_right));
-	m_InputManaget.bind('S', move(move_bottom));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "zoom_in"		, 'Z', "./config.ini"), move(zoom_in));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "zoom_out"		, 'X', "./config.ini"), move(zoom_out));
 
-	m_InputManaget.bind('Z', move(zoom_in));
-	m_InputManaget.bind('X', move(zoom_out));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "show_inventory"	, 'I', "./config.ini"), move(show_inventory));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "show_equipment"	, 'E', "./config.ini"), move(show_equipment));
 
-	m_InputManaget.bind('I', move(show_inventory));
-	m_InputManaget.bind('V', move(show_equipment));
+	m_InputManaget.bind(GetPrivateProfileIntA("TestScene", "attack"			, VK_SPACE, "./config.ini"), move(attack));
 
-	m_InputManaget.bind(VK_SPACE, move(attack));
-
-	m_InputManaget.replace("show_equipment"s, 'E');
+//	m_InputManaget.replace("show_equipment"s, 'E');
 }
 
 void CTestScene::Update(float fTimeElapsed)
