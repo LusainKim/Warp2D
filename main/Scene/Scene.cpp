@@ -70,5 +70,7 @@ bool CScene::OnCreate(wstring&& tag, CWarp2DFramework * framework)
 	m_hWnd = m_pFramework->GethWnd();
 	m_pIndRes = m_pFramework->GetIndRes();
 
+	BindKey();
+
 	return true;
 }

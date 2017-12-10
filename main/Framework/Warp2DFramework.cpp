@@ -20,6 +20,8 @@ void CWarp2DFramework::OnCreate(HWND hWnd, HINSTANCE hInst, shared_ptr<CIndRes> 
 	RegisterIndRes(indres);
 	RegisterTimer(timer);
 
+	BindKey();
+
 	m_hWnd = hWnd;
 	m_hInst = hInst;
 	::GetClientRect(hWnd, &m_rcClient);
@@ -37,8 +39,18 @@ void CWarp2DFramework::BuildScene(wstring Tag, const unique_ptr<CScene>& scene)
 	scene->OnCreate(move(Tag), this);
 }
 
+void CWarp2DFramework::BindKey()
+{
+	CInputManager::Button btn{ "exit"s };
+	btn.up_event = [&]() { DestroyWindow(m_hWnd); };
+
+	m_InputManaget.bind(VK_ESCAPE, move(btn));
+}
+
 void CWarp2DFramework::FrameAdvance()
 {
+	ProcessInput();
+
 	Update(m_pTimer->GetTimeElapsed());
 	Draw();
 }
@@ -87,9 +99,9 @@ bool CWarp2DFramework::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, W
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
-		case VK_ESCAPE:
-			PostMessage(hWnd, WM_DESTROY, 0, 0);
-			break;
+	//	case VK_ESCAPE:
+	//		PostMessage(hWnd, WM_DESTROY, 0, 0);
+	//		break;
 
 		default:
 			return false;
@@ -166,18 +178,12 @@ LRESULT CWarp2DFramework::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, 
 
 void CWarp2DFramework::ProcessInput()
 {
-	static UCHAR pKeyBuffer[256];
+	bool arrByte[256]{};
+	memset(arrByte, false, sizeof BYTE * 256);
 
-	bool bProcessedByScene = false;
-	BOOL bKeyState = GetKeyboardState(pKeyBuffer);
-	UNREFERENCED_PARAMETER(bKeyState);
+	if (m_pCurrentScene) m_pCurrentScene->ProcessInput(arrByte);
 
-	if (m_pCurrentScene) bProcessedByScene = m_pCurrentScene->ProcessInput(pKeyBuffer);
-
-	if (!bProcessedByScene)
-	{
-		// TODO: ...
-	}
+	m_InputManaget.ProcessInput(arrByte);
 }
 
 void CWarp2DFramework::ChangeScene(wstring Tag, bool bDestroyPostScene)

@@ -41,6 +41,11 @@ public:
 		m_UserInfo.GetExp(rand() % 3 + 1);
 	}
 
+	bool IsMoveCool() const { return m_fMoveCool > m_fMaxMoveCool; }
+	bool IsAttackCool() const { return m_fAttCool > m_fMaxAttCool; }
+
+	void ActionAttack() { m_fAttCool = 0.f; }
+
 private:
 
 	ComPtr<ID2D1Bitmap1>		m_bmpImage;
@@ -51,6 +56,13 @@ private:
 	UINT						m_iSprite;
 
 	float						m_fTick;
+	float						m_fMoveCool;
+	float						m_fAttCool;
+
+	bool						m_bMove = false;
+
+	const float					m_fMaxMoveCool = 0.2f;
+	const float					m_fMaxAttCool = 0.5f;
 
 public:
 	const UserInfo& GetInfo() const { return m_UserInfo; }

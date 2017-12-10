@@ -30,6 +30,8 @@ public:
 	bool OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	override;
 
 	bool OnCreate(wstring&& tag, CWarp2DFramework* pFramework) override;
+	void BindKey() override;
+
 	void Update(float fTimeElapsed) override;
 	void MonsterAI(unique_ptr<CMonster> & monster);
 	void Draw(ID2D1HwndRenderTarget * pd2dRenderTarget) override;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Framework/Input/Input.h"
+
 class CWarp2DFramework;
 class CIndRes;
 
@@ -10,6 +12,7 @@ public:
 	virtual ~CScene();
 
 	virtual bool OnCreate(wstring&& tag, CWarp2DFramework* pFramework);
+	virtual void BindKey() {}
 
 	virtual bool OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
 	virtual bool OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
@@ -24,6 +27,7 @@ public:
 
 	const wstring& Tag() const { return m_strTag; }
 
+	virtual void ProcessInput(bool(&arrByte)[256]) { m_InputManaget.ProcessInput(arrByte); }
 protected:
 
 	CWarp2DFramework*		m_pFramework	{ nullptr }	;
@@ -31,5 +35,5 @@ protected:
 	shared_ptr<CIndRes>		m_pIndRes		{ nullptr }	;
 
 	wstring					m_strTag					;
-
+	CInputManager			m_InputManaget				;
 };

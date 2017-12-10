@@ -33,8 +33,16 @@ void CPlayer::Update(float fTimeElapsed)
 		return;
 	}
 
-	m_fTick += (fTimeElapsed * 5.f);
-	if (m_fTick > 4.f)
+	if (m_bMove)
+	{
+		m_bMove = false;
+		m_fMoveCool = 0.f;
+	}
+
+	m_fAttCool += fTimeElapsed;
+	m_fMoveCool += fTimeElapsed;
+
+	if (m_fTick += (fTimeElapsed * 5.f) > 4.f)
 		m_fTick -= 4.f;
 }
 
@@ -116,7 +124,8 @@ void CPlayer::RegisterImage(ComPtr<ID2D1Bitmap1>&& bmp, D2D_SIZE_U szSprite) noe
 void CPlayer::Move(Dir dir)
 {
 	if (!IsActive()) return;
-
+	if (!IsMoveCool()) return;
+	m_bMove = true;
 	switch (m_Direction = dir)
 	{
 	case Dir::left:			if (m_szCoord.width > 0) m_szCoord.width -= 1;

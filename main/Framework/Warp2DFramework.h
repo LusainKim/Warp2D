@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Framework/Input/Input.h"
+
 class CIndRes;
 class CTimer;
 
@@ -37,7 +39,7 @@ public:
 
 private:
 	void BuildScene(wstring Tag, const unique_ptr<CScene>& scene);
-
+	void BindKey();
 
 public:
 
@@ -86,5 +88,6 @@ private:
 
 	list<unique_ptr<CScene>>		m_lstScenes						;
 	CScene*							m_pCurrentScene		{ nullptr }	;
+	CInputManager					m_InputManaget					;
 
 };

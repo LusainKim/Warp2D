@@ -83,43 +83,7 @@ bool CTestScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM 
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
-		case VK_SPACE:
-		{
-			if (!m_Player.IsActive()) break;
 
-			auto attCoord = m_Player.GetAttCoord();
-			for (auto& p : m_lstMonster)
-				if (p->IsActive() && p->GetCoord() == attCoord)
-				{
-					p->GetDamage(m_Player.GetAtt());
-
-					// ¸®Á¨ ¼³Á¤
-					if (!p->IsActive()) m_dqRegenTimer.push(chrono::high_resolution_clock::now() + 5s);
-				}
-
-			break;
-		}
-		case 'A':		m_Player.Move(CPlayer::Dir::left);
-			break;
-		case 'W':		m_Player.Move(CPlayer::Dir::top);
-			break;
-		case 'D':		m_Player.Move(CPlayer::Dir::right);
-			break;
-		case 'S':		m_Player.Move(CPlayer::Dir::bottom);
-			break;
-
-		case 'Z':		m_Camera.Scale(m_Camera.GetScale() * 2.f);
-			break;
-		case 'X':		m_Camera.Scale(m_Camera.GetScale() * 0.5f);
-			break;
-
-//		case 'H':		m_uiInventory.PutItem();
-//			break;
-
-		case 'I':		m_uiInventory.SwitchView();
-			break;
-		case 'E':		m_uiEquipment.SwitchView();
-			break;
 		default:
 			return false;
 		}
@@ -210,6 +174,63 @@ bool CTestScene::OnCreate(wstring && tag, CWarp2DFramework * pFramework)
 	m_uiEquipment.BuildObject(this);
 
 	return true;
+}
+
+void CTestScene::BindKey()
+{
+	using BTN = CInputManager::Button;
+	using namespace InputManager;
+
+	make_button(move_left);
+	move_left.down_event	= [&]() { m_Player.Move(CPlayer::Dir::left); };
+	make_button(move_top);
+	move_top.down_event		= [&]() { m_Player.Move(CPlayer::Dir::top); };
+	make_button(move_right);
+	move_right.down_event	= [&]() { m_Player.Move(CPlayer::Dir::right); };
+	make_button(move_bottom);
+	move_bottom.down_event	= [&]() { m_Player.Move(CPlayer::Dir::bottom); };
+	
+	make_button(zoom_in);
+	zoom_in.up_event	= [&]() { m_Camera.Scale(m_Camera.GetScale() * 2.f); };
+	make_button(zoom_out);
+	zoom_out.up_event	= [&]() { m_Camera.Scale(m_Camera.GetScale() * 0.5f); };
+
+	make_button(show_inventory);
+	show_inventory.up_event	= [&]() { m_uiInventory.SwitchView(); };
+	make_button(show_equipment);
+	show_equipment.up_event	= [&]() { m_uiEquipment.SwitchView(); };
+
+	make_button(attack);
+	attack.down_event = [&]()
+	{
+		if (!m_Player.IsAttackCool()) return;
+		if (!m_Player.IsActive()) return;
+
+		auto attCoord = m_Player.GetAttCoord();
+		for (auto& p : m_lstMonster)
+			if (p->IsActive() && p->GetCoord() == attCoord)
+			{
+				p->GetDamage(m_Player.GetAtt());
+				m_Player.ActionAttack();
+				// ¸®Á¨ ¼³Á¤
+				if (!p->IsActive()) m_dqRegenTimer.push(chrono::high_resolution_clock::now() + 5s);
+			}
+	};
+
+	m_InputManaget.bind('A', move(move_left));
+	m_InputManaget.bind('W', move(move_top));
+	m_InputManaget.bind('D', move(move_right));
+	m_InputManaget.bind('S', move(move_bottom));
+
+	m_InputManaget.bind('Z', move(zoom_in));
+	m_InputManaget.bind('X', move(zoom_out));
+
+	m_InputManaget.bind('I', move(show_inventory));
+	m_InputManaget.bind('V', move(show_equipment));
+
+	m_InputManaget.bind(VK_SPACE, move(attack));
+
+	m_InputManaget.replace("show_equipment"s, 'E');
 }
 
 void CTestScene::Update(float fTimeElapsed)
